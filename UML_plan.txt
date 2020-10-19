@@ -1,0 +1,53 @@
+@startuml
+skinparam classAttributeIconSize 0
+interface IngredientStore {
+    + requesteIngredient(ingredient: Ingredient): Optional<Ingredient>
+}
+class Kitchen implements IngredientStore {
+    - employees: Set<Employee>
+    - chef Chef
+    - cookers: Set<CookerEmployee>
+    - helpers: Set<KitchenHelper>
+    - hireChef(chef: Chef): void
+    + hireEmployee(employee: Employee): void
+    + conductAShft(): void
+}
+
+abstract class Employee {
+    - name: String
+    - birthDate: LocalDate
+    - salary: int
+    + printTax(): void
+}
+abstract class CookerEmployee {
+    - hasKnife: boolean
+    + reciveKnife(): void
+    + hasKnife(): boolean
+    + cook(): void
+    # {abstract} cookWithKnives(): void
+}
+class Chef {
+    - store: IngredientStore
+    + setStore(store: Store): void
+}
+class Cook {}
+class KitchenHelper {
+    - ingedients: Map<Ingredient, Integer>
+    - hasIngredient(ingredient: Ingredient): boolean
+    - decresAmountOf(ingredient: Ingredient): void
+    + giveUpIngredient(ingredient: Ingredient): Optional<Ingredient>
+    + refillIngredient(): void
+    + yell(): void
+}
+enum Ingredient {
+    POTATO
+    MEAT
+    CARROT
+}
+
+Kitchen *--Employee
+Employee <|-- CookerEmployee
+Employee <|-- KitchenChelper
+CookerEmployee <|-- Cook
+CookerEmployee <|-- Chef
+@enduml
